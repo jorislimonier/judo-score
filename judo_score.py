@@ -1,6 +1,3 @@
-# To add a new cell, type '# %%'
-# To add a new markdown cell, type '# %% [markdown]'
-# %%
 import os
 import time
 from selenium import webdriver
@@ -8,14 +5,12 @@ from selenium.webdriver.common.action_chains import ActionChains
 import pytube
 import subprocess
 
-
-# %%
 # open browser
-def open_browser():
-    chrome_driver = os.environ['CHROMEDRIVER'] # path to chrome driver
-    browser = webdriver.Chrome(chrome_driver)
+def open_browser(path="chromedriver"):
+    browser = webdriver.Chrome(path)
     browser.maximize_window()
     return browser
+
 
 # download the video at a given url
 def download_video(url, location=None):
@@ -55,14 +50,14 @@ def download_fight_videos():
             print(f'\n----- {judoka_i} - {name} -----')
             # open video section
             profile = browser.get(video_section_link)
-            time.sleep(3)
+            time.sleep(5)
             judoka_videos = browser.find_elements_by_css_selector('.video-list-thumb')
             for video in judoka_videos[6:8]:
                 print(f'\nTrying to download video {judoka_videos.index(video)} . . .')
-                for _ in range(2):
+                for _ in range(3):
                     try:
                         print('...moving to video')
-                        time.sleep(1)
+                        time.sleep(3)
                         actions = ActionChains(browser)
                         actions.move_to_element(video).perform()
                         video.click()
@@ -80,7 +75,7 @@ def download_fight_videos():
                         break
                     except:
                         print('/!\ There has been a problem while trying to download the video')
-                        time.sleep(1)
+                        time.sleep(2)
                         browser.switch_to.default_content()
             free_up_space(fighter_subfolder_name)
         except:
@@ -89,33 +84,4 @@ def download_fight_videos():
     print(int(time.time() - start_time), 'seconds')
     
 download_fight_videos()
-
-
-# %%
-
-
-
-# %%
-
-
-
-# %%
-
-
-
-# %%
-
-
-
-# %%
-
-
-
-# %%
-
-
-
-# %%
-
-
 
