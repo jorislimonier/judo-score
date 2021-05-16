@@ -25,7 +25,6 @@ To write a script to decide on the score of a judo throw.
     1. Videos
     2. Squelette (CNN)
     3. is_laid_down? Difference in Y's between feet and hands.
-    4. 
 
 - Features
     - Impact velocity
