@@ -5,21 +5,18 @@ import pytube
 
 
 class Scraper:
-    def __init__(self, url):
-        self.url = "https://www.ijf.org/judoka?name=&nation=FRA&gender=both&category=sen"  # change later. Now only going through french athletes
+    def __init__(
+        self, url="https://www.ijf.org/judoka?name=&nation=FRA&gender=both&category=sen"
+    ):
+        self.url = url  # change later. Now only going through french athletes
 
+    @staticmethod
     def init_browser(url, path="chromedriver"):
         """open browser"""
         driver = webdriver.Chrome(path)
         driver.maximize_window()
         driver.get(url)
         return driver
-
-    def download_video(url, location=None):
-        """download the video at a given url"""
-        youtube = pytube.YouTube(url)
-        video = youtube.streams.first()
-        video.download(location)
 
     def init_judoka(judoka_card):
         """create instance of the Judoka class
