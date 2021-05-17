@@ -39,7 +39,7 @@ class Scraper:
         return [self.init_judoka(judoka_card) for judoka_card in judoka_cards]
 
     def scrape_fights(self, judoka):
-        driver = self.init_browser(url)
+        driver = self.init_browser(self.url)
         driver.get(judoka.profile_url + "/contests")
         driver.find_elements_by_class_name("opt")[1].click()  # click table view
         table_rows = driver.find_elements_by_class_name("contest-table__contest")
