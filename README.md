@@ -1,25 +1,23 @@
 ## Goal
 To write a script to decide on the score of a judo throw.
 
-**Current completion:**
-- [X] Web scrape to get to video page
-- [x] Bulk download
-- [ ] Determine score
-
 ## TODO
 
 ### Joris
 - Refactor web scraper
 - Fix web scraper
-    - Use ["judoka" page](https://www.ijf.org/judoka) rather than "ranking"
-    - Identify ippon by Hansoku-Make rather than throw
+    - [x] Use ["judoka" page](https://www.ijf.org/judoka) rather than "ranking"
+    - [ ] Identify ippon by Hansoku-Make rather than throw
 - Characteristics
     - Judoka
-        - Number of ippons (with timestamps)
-        - Number of waza (with timestamps)
-        - Weight category
-        - Age
-        - ...etc
+        - [x] Family name
+        - [x] Given name
+        - [x] Country
+        - [ ] Number of ippons
+        - [ ] Number of waza
+        - [ ] Weight category
+        - [ ] Age\
+        ...etc
     - Fight
         - is_ippon
         - number waza
