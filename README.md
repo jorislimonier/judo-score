@@ -32,8 +32,8 @@ To write a script to decide on the score of a judo throw.
 - Papers
     - Share Zotero
     - [Deep skeleton 1](https://arxiv.org/pdf/1609.03659.pdf)
-    - [Deep skeleton 2](https://openaccess.thecvf.com/content_ICCV_2017/papers/Lee_Ensemble_Deep_Learning_ICCV_2017_paper.pdf)
         - Proof of concept on sample video 
+    - ~~[Deep skeleton 2](https://openaccess.thecvf.com/content_ICCV_2017/papers/Lee_Ensemble_Deep_Learning_ICCV_2017_paper.pdf)~~
 - [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)
 - [DVC](https://dvc.org/)
 

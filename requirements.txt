@@ -1,6 +1,12 @@
 # local package
 -e .
 
+## Skeleteonization part
+# Importing pre-trained keras models
+keras-segmentation
+tensorflow==2.2.0
+python-opencv
+
 # external requirements
 click
 Sphinx
