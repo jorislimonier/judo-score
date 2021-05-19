@@ -7,10 +7,10 @@ class Judoka:
 
 
 class Fight:
-    def __init__(self, white, blue, competition, date, round_cat):
+    def __init__(self, white, blue, competition, date, category_and_round):
         self.white = white
         self.blue = blue
         self.competition = competition
         self.date = date
-        self.round_cat = round_cat
+        self.round_cat = category_and_round
         
