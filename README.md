@@ -15,13 +15,15 @@ To write a script to decide on the score of a judo throw.
         - [x] Country
         - [ ] Number of ippons
         - [ ] Number of waza
-        - [ ] Weight category
+        - [x] Weight category
         - [ ] Age\
         ...etc
     - Fight
         - is_ippon
         - number waza
         - correct fights with 2 ippons
+    - Start organising with Pandas, move to databases later.
+    - Multi-threading ?
 
 - See if metadata can be used to store athlete name (mkv)
 

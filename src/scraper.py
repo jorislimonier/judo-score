@@ -1,5 +1,4 @@
-from src.judoka import Judoka
-from src.fight import Fight
+from src.judoka import Judoka, Fight
 from selenium import webdriver
 
 
@@ -41,66 +40,58 @@ class Scraper:
         return init_judokas
 
     def scrape_fights(self, judoka):
-        driver = self.init_browser(self.url)
-        driver.get(judoka.profile_url + "/contests")
-        driver.find_elements_by_class_name("opt")[1].click()  # click table view
-        table_rows = driver.find_elements_by_class_name("contest-table__contest")
-        for table_row in table_rows[0:1]:
-            table_row_white = table_row.find_element_by_class_name("judoka--white")
-            family_name = table_row_white.find_element_by_class_name(
-                "judoka__name"
-            ).text
-            country = table_row_white.find_element_by_class_name("country").text
+        driver = self.init_browser(judoka.profile_url + "/contests")
+
+        # Accept cookies
+        driver.find_element_by_class_name("btn--red").click()
+
+        # Click table view
+        driver.find_elements_by_class_name("opt")[1].click()
+
+        # Scrape information from contest tile
+        table_rows = driver.find_elements_by_class_name("contest-table__contest--has-media")
+        for row_nb in [0, *range(len(table_rows))]:
+            print(f"=== {row_nb} ===")
+
+            table_rows = driver.find_elements_by_class_name("contest-table__contest--has-media")
+            table_row = table_rows[row_nb]
+            row_cells = table_row.find_elements_by_tag_name("td")
+            competition = row_cells[10].text
+            date = row_cells[12].text
+            row_cells[0].click()
+
+            white, blue = driver.find_elements_by_class_name("judoka-info")
+            
+            colors = [white, blue]
+
+            family_name = [color.find_element_by_class_name("family-name").text  for color in colors]
+            given_name = [color.find_element_by_class_name("given-name").text  for color in colors]
+            country = [color.find_element_by_class_name("country").text  for color in colors]
+            profile_url = [color.get_attribute("href")  for color in colors]
+            white_athlete, blue_athlete = [Judoka(family_name[i], given_name[i], country[i], profile_url[i]) for i in range(2)]
+
+            scores = driver.find_element_by_class_name("scores")
+            score_title = scores.find_element_by_class_name("title").text
+            round_cat = score_title
+
+            fght = Fight(
+                white=white_athlete,
+                blue=blue_athlete,
+                competition=competition,
+                date=date,
+                round_cat=round_cat,
+            )
+            print(vars(fght.blue))
+            print(vars(fght.white))
+            print(vars(fght))
+            print("=======")
+        return fght
 
 
 scrp = Scraper()
 judokas = scrp.scrape_judokas()
-judoka = judokas[1]
+for judoka in judokas[:5]:
+    fght = scrp.scrape_fights(judoka)
 
-driver = scrp.init_browser(judoka.profile_url + "/contests")
 
-# Accept cookies
-driver.find_element_by_class_name("btn--red").click()
 
-# Click table view
-driver.find_elements_by_class_name("opt")[1].click()
-
-# Scrape information from contest tile
-table_rows = driver.find_elements_by_class_name("contest-table__contest--has-media")
-for row_nb in [0, *range(len(table_rows))]:
-    table_rows = driver.find_elements_by_class_name("contest-table__contest--has-media")
-    table_row = table_rows[row_nb]
-    row_cells = table_row.find_elements_by_tag_name("td")
-    competition = row_cells[10].text
-    date = row_cells[12].text
-    # print("before click")
-    row_cells[0].click()
-    # print("after click")
-
-    white, blue = driver.find_elements_by_class_name("judoka-info")
-    family_name = white.find_element_by_class_name("family-name").text
-    given_name = white.find_element_by_class_name("given-name").text
-    country = white.find_element_by_class_name("country").text
-    profile_url = white.get_attribute("href")
-    white_athlete = Judoka(family_name, given_name, country, profile_url)
-
-    family_name = blue.find_element_by_class_name("family-name").text
-    given_name = blue.find_element_by_class_name("given-name").text
-    country = blue.find_element_by_class_name("country").text
-    profile_url = blue.get_attribute("href")
-    blue_athlete = Judoka(family_name, given_name, country, profile_url)
-
-    scores = driver.find_element_by_class_name("scores")
-    score_title = scores.find_element_by_class_name("title").text
-    round_cat = score_title
-
-    fght = Fight(white=white_athlete, blue=blue_athlete, competition=competition, date=date, round_cat=round_cat) 
-
-    vars(fght.blue)
-    vars(fght.white)
-    vars(fght)
-    # if row_nb == 3:
-    #     break
-    print("==========")
-
-row_nb
