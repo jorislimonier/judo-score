@@ -1,5 +1,4 @@
-from src.judoka import Judoka
-from src.fight import Fight
+from judoka import Judoka, Fight
 from selenium import webdriver
 
 
@@ -34,25 +33,71 @@ class Scraper:
         )
 
     def scrape_judokas(self):
+        """ iterate over judokas from the IJF list of judokas to get
+        their given_name, family_name, country and profile_url"""
         driver = self.init_browser(self.url)
         judoka_cards = driver.find_elements_by_class_name("judoka")
-        return [self.init_judoka(judoka_card) for judoka_card in judoka_cards]
+        init_judokas = [self.init_judoka(judoka_card) for judoka_card in judoka_cards]
+        driver.quit()
+        return init_judokas
 
     def scrape_fights(self, judoka):
-        driver = self.init_browser(url)
-        driver.get(judoka.profile_url + "/contests")
-        driver.find_elements_by_class_name("opt")[1].click()  # click table view
-        table_rows = driver.find_elements_by_class_name("contest-table__contest")
-        for table_row in table_rows[0:1]:
-            table_row_white = table_row.find_element_by_class_name("judoka--white")
-            family_name = table_row_white.find_element_by_class_name(
-                "judoka__name"
-            ).text
-            country = table_row_white.find_element_by_class_name("country").text
-            # white =
-            # blue =
-            # competition =
-            # date =
-            # winner =
-            # category =
-            # comp_round =
+        """ iterate over the fights of one judoka on their IJF contest page"""
+        driver = self.init_browser(judoka.profile_url + "/contests")
+
+        # Accept cookies
+        driver.find_element_by_class_name("btn--red").click()
+
+        # Click table view
+        driver.find_elements_by_class_name("opt")[1].click()
+
+        # Scrape information from contest tile
+        table_rows = driver.find_elements_by_class_name("contest-table__contest--has-media")
+
+        fights_info = []
+        for row_nb in [0, *range(len(table_rows)-1)]:
+            print(f"=== {row_nb} ===")
+
+            # get info from row header
+            table_rows = driver.find_elements_by_class_name("contest-table__contest--has-media")
+            table_row = table_rows[row_nb]
+            row_cells = table_row.find_elements_by_tag_name("td")
+            competition = row_cells[10].text
+            date = row_cells[12].text
+
+            # open video and score sections below row header
+            row_cells[0].click()
+
+            # get both judokas' info
+            white, blue = driver.find_elements_by_class_name("judoka-info")
+            colors = [white, blue]
+            family_name = [color.find_element_by_class_name("family-name").text  for color in colors]
+            given_name = [color.find_element_by_class_name("given-name").text  for color in colors]
+            country = [color.find_element_by_class_name("country").text  for color in colors]
+            profile_url = [color.get_attribute("href")  for color in colors]
+            white_athlete, blue_athlete = [Judoka(family_name[i], given_name[i], country[i], profile_url[i]) for i in range(2)]
+
+            # get score
+            scores = driver.find_element_by_class_name("scores")
+            category_and_round = scores.find_element_by_class_name("title").text
+
+            fight_info = Fight(
+                white=white_athlete,
+                blue=blue_athlete,
+                competition=competition,
+                date=date,
+                category_and_round=category_and_round,
+            )
+
+            print(vars(fight_info.blue))
+            print(vars(fight_info.white))
+            print(vars(fight_info))
+
+            fights_info.append(fight_info)
+        return fights_info
+
+
+
+
+
+

@@ -15,13 +15,15 @@ To write a script to decide on the score of a judo throw.
         - [x] Country
         - [ ] Number of ippons
         - [ ] Number of waza
-        - [ ] Weight category
+        - [x] Weight category
         - [ ] Age\
         ...etc
     - Fight
         - is_ippon
         - number waza
         - correct fights with 2 ippons
+    - Start organising with Pandas, move to databases later.
+    - Multi-threading ?
 
 - See if metadata can be used to store athlete name (mkv)
 
@@ -61,5 +63,22 @@ To write a script to decide on the score of a judo throw.
 
 # 1. Videos
 # 2. Squelette (CNN)
+##    2.1 Model Zoo
+- Unet* (human shape segmentation)
+- [Bodypix](https://blog.tensorflow.org/2019/11/updated-bodypix-2.html)* TensorFlow.js (human segmentation + body part identification)
+- DeepSkeleton (multiple CNN kernels for [medial axis](https://www.wikiwand.com/en/Medial_axis) detection)
+- Holistically-Nested Edge Detection (powerful edge detector ~oriented gradients)
+
+\*: pre-trained models available!
+
+## Ideas
+### Algorithm pipeline
+- Segmentation box or silhouette
+- Apply "[grassfire transform](https://www.wikiwand.com/en/Grassfire_transform)" as **feature extraction** algorithm?
+
+
+### Techniques
+- Transfer learning (with fine tuning on our task)
+
 # 3. is_laid_down? Difference in Y's between feet and hands.
-# 4. is_score ?
+# 4. is_score?

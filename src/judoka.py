@@ -4,3 +4,13 @@ class Judoka:
         self.given_name = given_name
         self.country = country
         self.profile_url = profile_url
+
+
+class Fight:
+    def __init__(self, white, blue, competition, date, category_and_round):
+        self.white = white
+        self.blue = blue
+        self.competition = competition
+        self.date = date
+        self.round_cat = category_and_round
+        

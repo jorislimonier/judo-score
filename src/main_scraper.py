@@ -1,6 +1,6 @@
-from src.scraper import Scraper
+from scraper import Scraper
 
-scr = Scraper()
-judokas = scr.scrape_judokas()
-for judoka in judokas:
-    print(vars(judoka))
+scrp = Scraper()
+judokas = scrp.scrape_judokas()
+for judoka in judokas[:5]:
+    fght = scrp.scrape_fights(judoka)
