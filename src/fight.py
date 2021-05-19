@@ -1,9 +1,7 @@
 class Fight:
-    def __init__(self, white, blue, competition, date, winner, category, comp_round):
+    def __init__(self, white, blue, competition, date, round_cat):
         self.white = white
         self.blue = blue
         self.competition = competition
         self.date = date
-        self.winner = winner
-        self.category = category
-        self.comp_round = comp_round
+        self.round_cat = round_cat
