@@ -6,6 +6,7 @@
 keras-segmentation
 tensorflow==2.2.0
 python-opencv
+sklearn
 
 # external requirements
 click
