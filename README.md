@@ -29,31 +29,18 @@ To write a script to decide on the score of a judo throw.
 
 ### Yann
 - [Judo background](https://www.youtube.com/watch?v=pgfKasoI5yc&ab_channel=Judo)
-- Papers
-    - Share Zotero
-    - [Deep skeleton 1](https://arxiv.org/pdf/1609.03659.pdf)
-    - [Deep skeleton 2](https://openaccess.thecvf.com/content_ICCV_2017/papers/Lee_Ensemble_Deep_Learning_ICCV_2017_paper.pdf)
-        - Proof of concept on sample video 
 - [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)
 - [DVC](https://dvc.org/)
 
 ## Ideas
-
-- "**Attention**" algorithm
-- Steps
-    1. Videos
-    2. Squelette (CNN)
-    3. is_laid_down? Difference in Y's between feet and hands.
-    4. is_score ?
-
 - Features
     - Impact velocity
     - Facing the ground? (Head facing)
 
 - Sequence of images to determine score with number of frames laid_down vs not laid_down
 
+# 1. Videos
 ### Data management
-
 - Remove folder organization per athlete (all videos in one folder)
 - Video title
     - Keep original title for now
@@ -61,24 +48,38 @@ To write a script to decide on the score of a judo throw.
     - Parse (=extract info from video title)
 
 
-# 1. Videos
-# 2. Squelette (CNN)
-##    2.1 Model Zoo
+# 2. Image segmentation (CNN)
+
+## Ideas
+### Model Zoo
 - Unet* (human shape segmentation)
 - [Bodypix](https://blog.tensorflow.org/2019/11/updated-bodypix-2.html)* TensorFlow.js (human segmentation + body part identification)
 - DeepSkeleton (multiple CNN kernels for [medial axis](https://www.wikiwand.com/en/Medial_axis) detection)
 - Holistically-Nested Edge Detection (powerful edge detector ~oriented gradients)
 
 \*: pre-trained models available!
-
-## Ideas
 ### Algorithm pipeline
-- Segmentation box or silhouette
-- Apply "[grassfire transform](https://www.wikiwand.com/en/Grassfire_transform)" as **feature extraction** algorithm?
+- 1. Segmentation box
 
+- 2. Segmentation silhouette (edge detection)
+- [keras_segmentation](https://github.com/divamgupta/image-segmentation-keras)
+
+- 3. Skeletonization
+- Apply "[grassfire transform](https://www.wikiwand.com/en/Grassfire_transform)" as **feature extraction** algorithm?
+- DeepSkeleton (the source is closed :/)
+
+- 4. Color cue
+
+- "**Attention**" algorithm
 
 ### Techniques
 - Transfer learning (with fine tuning on our task)
+- GPU
 
-# 3. is_laid_down? Difference in Y's between feet and hands.
-# 4. is_score?
+# 3. is_laid_down? 
+* Difference in Y's between feet and hands.
+* 
+
+# 4. Score detection
+## I. Score vs not score
+## II. Waza-ari vs ippon

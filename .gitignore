@@ -1,4 +1,5 @@
 data/fight_videos/
+src/data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
