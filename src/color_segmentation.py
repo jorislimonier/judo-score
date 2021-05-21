@@ -4,18 +4,25 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 import numpy as np
 import warnings
+
 warnings.filterwarnings("ignore")
 
 # OpenCV HSV scale: (180, 255, 254)
 light_navy_blue = (90, 100, 40)
-dark_navy_blue  = (140, 200, 200)
+dark_navy_blue = (140, 200, 200)
 
 # OpenCV HSV scale: (180, 255, 254)
 light_white = (0, 0, 100)
-dark_white  = (155, 100, 255)
+dark_white = (155, 100, 255)
 
-blue_mask = lambda hsv: cv.inRange(hsv, light_navy_blue, dark_navy_blue)
-white_mask = lambda hsv: cv.inRange(hsv, light_white, dark_white)
+
+def blue_mask(hsv):
+    return cv.inRange(hsv, light_navy_blue, dark_navy_blue)
+
+
+def white_mask(hsv):
+    return cv.inRange(hsv, light_white, dark_white)
+
 
 def apply_mask(mask):
     @load_image
@@ -43,6 +50,7 @@ initial_clusters = {
 centroids = np.array(list(initial_clusters.values()))
 n_clusters = len(initial_clusters)
 
+
 @load_image
 def kmeans_color_clustering(image):
     reshaped = image.reshape((-1, 3))
@@ -51,8 +59,10 @@ def kmeans_color_clustering(image):
     clt.fit(reshaped)
 
     colors = clt.cluster_centers_
-    clustered_image = np.array([colors[clt.labels_[i]] for i in range(len(clt.labels_))])
-    clustered_image = clustered_image.reshape((360, 640, 3)) / 255.
+    clustered_image = np.array(
+        [colors[clt.labels_[i]] for i in range(len(clt.labels_))]
+    )
+    clustered_image = clustered_image.reshape((360, 640, 3)) / 255.0
 
     return clustered_image
 
@@ -60,6 +70,7 @@ def kmeans_color_clustering(image):
 # Color distance
 def srgb(c1, c2):
     return (c2[0] - c1[0]) ** 2 + (c2[1] - c1[1]) ** 2 + (c2[2] - c1[2]) ** 2
+
 
 @load_image
 def kmeans_keep_players(image):
@@ -69,22 +80,31 @@ def kmeans_keep_players(image):
     clt.fit(reshaped_2d)
 
     colors = clt.cluster_centers_
-    clustered_image = np.array([colors[clt.labels_[i]] for i in range(len(clt.labels_))])
+    clustered_image = np.array(
+        [colors[clt.labels_[i]] for i in range(len(clt.labels_))]
+    )
     image = clustered_image.reshape((360, 640, 3))
 
     # Find the k-means color (centroid) that matches the original gi the closest.
     # Make a mask out of all the pixels belonging to this cluster.
     def bitmask_from(color):
-        distance_to_color = srgb(np.array([color] * n_clusters).transpose(), colors.transpose())
+        distance_to_color = srgb(
+            np.array([color] * n_clusters).transpose(), colors.transpose()
+        )
         index_centroid = np.argmin(distance_to_color)
         belongs_to_cluster = image == colors[index_centroid]
-        bitmask = (belongs_to_cluster[:, :, 0] & belongs_to_cluster[:, :, 1] & belongs_to_cluster[:, :, 2])
+        bitmask = (
+            belongs_to_cluster[:, :, 0]
+            & belongs_to_cluster[:, :, 1]
+            & belongs_to_cluster[:, :, 2]
+        )
         return bitmask
 
-    mask_union = bitmask_from(initial_clusters["navy_blue_gi"]) | \
-                bitmask_from(initial_clusters["white_gi"]).astype(np.int8)
+    mask_union = bitmask_from(initial_clusters["navy_blue_gi"]) | bitmask_from(
+        initial_clusters["white_gi"]
+    ).astype(np.int8)
     masked_image = cv.bitwise_and(image, image, mask=mask_union)
-    masked_image /= 255.
+    masked_image /= 255.0
 
     return masked_image
 

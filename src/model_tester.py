@@ -7,12 +7,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 import time
+from collections.abc import Callable
 
 # %% Preparation functions
+
+
 def download_sample():
     youtube = YouTube("https://youtu.be/GgO4-din03U")
     video = youtube.streams.first()
     video.download()
+
 
 def extract_frames(video):
     video_path = Path("data/sample_fight.mp4")
@@ -26,11 +30,10 @@ def extract_frames(video):
 
 
 # %%
-from collections.abc import Callable
-
 vignette_side = 4
 extracted_frames = list(Path("data/frames").glob("*"))
 frames = random.sample(extracted_frames, vignette_side ** 2)
+
 
 def map_vignette(image_transform, title: str) -> None:
     t_start = time.time()
@@ -46,8 +49,11 @@ def map_vignette(image_transform, title: str) -> None:
 
     t_end = time.time()
     duration = t_end - t_start
-    plt.suptitle(f"{title} {duration:0.2f}s /{duration/vignette_side ** 2: 0.2f}s",
-                 y=0.93, fontsize=21)
+    plt.suptitle(
+        f"{title} {duration:0.2f}s /{duration/vignette_side ** 2: 0.2f}s",
+        y=0.93,
+        fontsize=21,
+    )
     plt.savefig(title)
 
 
@@ -58,13 +64,16 @@ def load_image(func):
 
     return wrapper
 
+
 @load_image
 def show_image(image):
     return image
 
+
 # %%
 def segment_image(model):
     return lambda path: model.predict_segmentation(inp=str(path))
+
 
 # Sample images
 map_vignette(show_image, "normal")
