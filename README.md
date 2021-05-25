@@ -32,7 +32,7 @@ To write a script to decide on the score of a judo throw.
 - Papers
     - Share Zotero
     - [Deep skeleton 1](https://arxiv.org/pdf/1609.03659.pdf)
-        - Proof of concept on sample video 
+        - Proof of concept on sample video
     - ~~[Deep skeleton 2](https://openaccess.thecvf.com/content_ICCV_2017/papers/Lee_Ensemble_Deep_Learning_ICCV_2017_paper.pdf)~~
 - [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)
 - [DVC](https://dvc.org/)
@@ -65,3 +65,6 @@ To write a script to decide on the score of a judo throw.
 # 2. Squelette (CNN)
 # 3. is_laid_down? Difference in Y's between feet and hands.
 # 4. is_score ?
+
+### References
+https://research.fb.com/downloads/detectron/
