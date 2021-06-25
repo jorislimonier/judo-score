@@ -1,0 +1,16 @@
+* Segmentation model
+** UNet
+** SegNet
+** FCN
+** PSPNet - Pyramid Scene Parsing Network*
+** Detectron2 (FB Pytorch)
+** BodyPix*
+
+* Color space segmentation
+** HSV filter*
+** KMeans segmentation*
+
+* TODO
+** UNet
+** GPU
+** Detectron2 (PyTorch)

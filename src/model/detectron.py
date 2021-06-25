@@ -31,14 +31,14 @@ def detectron2(image):
         "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"
     )
     predictor = DefaultPredictor(cfg)
-    outputs = predictor(img)
+    outputs = predictor(image)
 
     v = Visualizer(
-        img[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2
+        image[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2
     )
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
 
     return out.get_image()[:, :, ::-1]
 
 
-vignettes(detectron2, "detectron2 - FAIR")
+vignettes(detectron2, "detectron2")
