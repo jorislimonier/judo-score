@@ -56,6 +56,7 @@ class Scraper:
 
         fights_info = []
         for row_nb in [0, *range(len(table_rows)-1)]:
+        # for row_nb in [0, *range(5)]:
             print(f"=== {row_nb} ===")
 
             # get info from row header
@@ -94,6 +95,7 @@ class Scraper:
             print(vars(fight_info))
 
             fights_info.append(fight_info)
+        driver.quit()
         return fights_info
 
 
