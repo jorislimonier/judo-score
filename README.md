@@ -1,3 +1,4 @@
+<!-- Speak with https://github.com/lancew and see if API is available for judobase -->
 ## Goal
 To write a script to decide on the score of a judo throw.
 
