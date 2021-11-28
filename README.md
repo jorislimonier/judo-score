@@ -1,4 +1,5 @@
-<!-- Speak with https://github.com/lancew and see if API is available for judobase -->
+<!-- Speak with https://github.com/lancew and see if API is available for judobase. -->
+<!-- Yes, yes there is. No library for Python (yet), drop me an email lw@judocoach.com happy to help -->
 ## Goal
 To write a script to decide on the score of a judo throw.
 
