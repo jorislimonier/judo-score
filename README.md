@@ -1,6 +1,11 @@
 <!-- Speak with https://github.com/lancew and see if API is available for judobase -->
 ## Goal
-To write a script to decide on the score of a judo throw.
+The objective is to write a script to decide on the score of a judo throw. Some of the milestones
+of this project include 1. collecting a large video dataset of games labeled with the
+referee decisions, 2. finding cool features and 3. training a deep neural network on the data.
+
+Here is an example of a feature that could be used to train the model.
+<center><img src="img/detectron2.png" width="360" /></center>
 
 ## TODO
 
